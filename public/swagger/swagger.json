@@ -1,0 +1,309 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Jamil",
+    "version": "0.0.1"
+  },
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+      "/api/register": {
+          "post": {
+              "tags": [
+                  "User Auth"
+              ],
+              "summary": "Register User",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/register"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "success",
+                      "schema": {
+                          "$ref": "#/definitions/defaultSuccess"
+                      }
+                  },
+                  "400": {
+                      "description": "error",
+                      "schema": {
+                          "$ref": "#/definitions/defaultError"
+                      }
+                  }
+              }
+          }
+      },
+
+      "/api/update": {
+          "post": {
+              "tags": [
+                  "User Auth"
+              ],
+              "summary": "Update user",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "name": "Authorization",
+                      "in": "header",
+                      "required": true,
+                      "type": "string",
+                      "default": ""
+                  },
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/user"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "success",
+                      "schema": {
+                          "$ref": "#/definitions/defaultSuccess"
+                      }
+                  },
+                  "400": {
+                      "description": "error",
+                      "schema": {
+                          "$ref": "#/definitions/defaultError"
+                      }
+                  }
+              }
+          }
+      },
+
+      "/api/login": {
+          "post": {
+              "tags": [
+                  "User Auth"
+              ],
+              "summary": "Login User",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/login"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "success",
+                      "schema": {
+                          "$ref": "#/definitions/defaultSuccess"
+                      }
+                  },
+                  "400": {
+                      "description": "error",
+                      "schema": {
+                          "$ref": "#/definitions/defaultError"
+                      }
+                  }
+              }
+          }
+      },
+
+      "/api/user": {
+          "post": {
+              "tags": [
+                  "User Auth"
+              ],
+              "summary": "Get user",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "name": "Authorization",
+                      "in": "header",
+                      "required": true,
+                      "type": "string",
+                      "default": ""
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "success",
+                      "schema": {
+                          "$ref": "#/definitions/defaultSuccess"
+                      }
+                  },
+                  "400": {
+                      "description": "error",
+                      "schema": {
+                          "$ref": "#/definitions/defaultError"
+                      }
+                  }
+              }
+          }
+      },
+
+      "/api/logout": {
+          "post": {
+              "tags": [
+                  "User Auth"
+              ],
+              "summary": "Logout User",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "name": "Authorization",
+                      "in": "header",
+                      "type": "string",
+                      "required": true,
+                      "default": ""
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "success",
+                      "schema": {
+                          "$ref": "#/definitions/defaultSuccess"
+                      }
+                  },
+                  "400": {
+                      "description": "error",
+                      "schema": {
+                          "$ref": "#/definitions/defaultError"
+                      }
+                  }
+              }
+          }
+      }
+  },
+    "definitions": {
+        "defaultError": {
+            "allOf": [
+                {
+                    "properties": {
+                        "code": {
+                            "type": "integer"
+                        },
+                        "status": {
+                            "type": "string"
+                        },
+                        "message": {
+                            "type": "string"
+                        },
+                        "params": {
+                            "type": "object"
+                        }
+                    }
+                }
+            ]
+        },
+        "defaultSuccess": {
+            "allOf": [
+                {
+                    "properties": {
+                        "code": {
+                            "type": "integer"
+                        },
+                        "status": {
+                            "type": "string"
+                        },
+                        "message": {
+                            "type": "string"
+                        },
+                        "params": {
+                            "type": "object"
+                        }
+                    }
+                }
+            ]
+        },
+
+        "register": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "c_password": {
+                  "type" : "string"
+                }
+            },
+            "required": [
+                "name",
+                "email",
+                "password",
+                "c_password"
+            ]
+        },
+
+        "login": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "email",
+                "password"
+            ]
+        },
+
+        "user": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "email"
+            ]
+        }
+    }
+}

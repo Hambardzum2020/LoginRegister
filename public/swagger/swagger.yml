@@ -1,0 +1,2961 @@
+openapi: 3.0.0
+info:
+  title: Jamil
+  version: 3.0.0
+
+security:
+  - SessionCheck: []
+paths:
+  /api/login:
+    post:
+      tags:
+        - User Auth
+      summary: Login User
+      parameters:
+        - name: referrer-app
+          in: header
+          description: |-
+            Dasa refferer -> "dasa"
+            Asso referrer -> "asso"
+          schema:
+            type: string
+            default: dasa
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+        required: true
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Logout User
+      security:
+        - JWT: []
+        - SessionCheck: []
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: register user
+      parameters:
+        - name: referrer-app
+          in: header
+          description: |-
+            Dasa refferer -> "dasa"
+            Asso referrer -> "asso"
+          schema:
+            type: string
+            default: dasa
+      requestBody:
+        $ref: "#/components/requestBodies/user"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/auth/attend:
+    post:
+      tags:
+        - Auth
+      summary: set user to event
+      parameters:
+        - name: Secret
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user_attend"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/users/settings/data:
+    get:
+      tags:
+        - User
+      summary: Get settings data
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}":
+    get:
+      tags:
+        - User
+      summary: Get user by ID
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    put:
+      tags:
+        - User
+      summary: Edit user
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - name: referrer-app
+          in: header
+          description: |-
+            Dasa refferer -> "dasa"
+            Asso referrer -> "asso"
+          schema:
+            type: string
+            default: dasa
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/user"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/events":
+    get:
+      tags:
+        - User
+      summary: Get events by user
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - name: order_field
+          in: query
+          schema:
+            type: string
+        - name: order
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/tickets":
+    get:
+      tags:
+        - User
+      summary: Get user tickets
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/tickets_new":
+    get:
+      tags:
+        - User
+      summary: Get user tickets
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/events/{event_id}":
+    post:
+      tags:
+        - User
+      summary: Set user event
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: event_id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/events/{event_id}/request":
+    post:
+      tags:
+        - User
+      summary: Approve user request
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: event_id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/events/{event_id}/cancel_request":
+    post:
+      tags:
+        - User
+      summary: Cancel user request
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: event_id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/events/{event_id}/bonus_tickets/{count}":
+    post:
+      tags:
+        - User
+      summary: Give  user bonus ticket
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: event_id
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: count
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/schools:
+    get:
+      tags:
+        - School
+      summary: Get schools list
+      parameters:
+        - name: district_id
+          in: query
+          schema:
+            type: number
+        - name: order_field
+          in: query
+          schema:
+            type: string
+        - name: order
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/schools/{id}":
+    get:
+      tags:
+        - School
+      summary: Get school by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/districts:
+    get:
+      tags:
+        - District
+      summary: Get district list
+      parameters:
+        - name: order_field
+          in: query
+          schema:
+            type: string
+        - name: order
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/districts/{id}":
+    get:
+      tags:
+        - District
+      summary: Get district by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/dasa/events:
+    get:
+      tags:
+        - Event
+      summary: Get event list
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - name: order_field
+          in: query
+          schema:
+            type: string
+        - name: order
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+        - name: state
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    post:
+      tags:
+        - Event
+      summary: Add event
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/event"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/asso/events:
+    get:
+      tags:
+        - Event
+      summary: Get event list
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/events/guide:
+    post:
+      tags:
+        - Event
+      summary: Add Program Guide
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        $ref: "#/components/requestBodies/event_guide"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/events/guide/{id}":
+    put:
+      tags:
+        - Event
+      summary: Update Program Guide
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/event_guide"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/events/{id}":
+    get:
+      tags:
+        - Event
+      summary: Get event by ID
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - name: referrer-app
+          in: header
+          description: |-
+            Dasa refferer -> "dasa"
+             Asso referrer -> "asso"
+          schema:
+            type: string
+            default: dasa
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    put:
+      tags:
+        - Event
+      summary: Edit event
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/event"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/events/{id}/users":
+    get:
+      tags:
+        - Event
+      summary: Get  event user list
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: order_field
+          in: query
+          schema:
+            type: string
+        - name: order
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/events/{id}/discussions":
+    get:
+      tags:
+        - Event
+      summary: Get event discussion list
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/events/{id}/discussion-images":
+    get:
+      tags:
+        - Event
+      summary: Get event discussion images list
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/news:
+    get:
+      tags:
+        - News
+      summary: Get news feed  list
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - name: order
+          in: query
+          schema:
+            type: number
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+        - name: event_id
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/discussions:
+    get:
+      tags:
+        - Discussions
+      summary: Get discussions list
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/notify/send:
+    get:
+      tags:
+        - Notify
+      summary: Send notifications
+      parameters:
+        - name: Secret
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/job/send:
+    get:
+      tags:
+        - Job
+      summary: Send notifications
+      parameters:
+        - name: Secret
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/feedback/get-questions:
+    get:
+      tags:
+        - Feedback
+      summary: Get feedback questions
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/feedback/answer/user/{user_id}/event/{event_id}":
+    post:
+      tags:
+        - Feedback
+      summary: Feedback answer
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: event_id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/feedback_answer"
+        required: true
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/quizzes:
+    get:
+      tags:
+        - Quiz
+      summary: Get quiz list
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+        - in: query
+          name: event_id
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    post:
+      tags:
+        - Quiz
+      summary: Add quiz
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        $ref: "#/components/requestBodies/quiz"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/quizzes/{id}":
+    get:
+      tags:
+        - Quiz
+      summary: Get quiz by ID
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    put:
+      tags:
+        - Quiz
+      summary: Edit quiz
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/quiz"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    delete:
+      tags:
+        - Quiz
+      summary: delete quiz
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/quizzes/{id}/questions":
+    get:
+      tags:
+        - Quiz
+      summary: Get quiz questions list
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    post:
+      tags:
+        - Quiz
+      summary: Add question to a quiz
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/question"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/questions/{id}":
+    put:
+      tags:
+        - Question
+      summary: Update a question by ID
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/question"
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    delete:
+      tags:
+        - Question
+      summary: Delete a question
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/questions/{id}/answers":
+    get:
+      tags:
+        - Question
+      summary: get a list of answer options for a question
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    post:
+      tags:
+        - Question
+      summary: Add an answer option for a question
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/answer"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/answers/{id}":
+    put:
+      tags:
+        - Answer
+      summary: Update an answer option by id
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/answer"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    delete:
+      tags:
+        - Answer
+      summary: Delete an answer by ID
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/answers":
+    get:
+      tags:
+        - User
+      summary: get answers of the user
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    post:
+      tags:
+        - User
+      summary: store answers of the user
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/manyAnswers"
+        required: true
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/quizzes":
+    get:
+      tags:
+        - User
+      summary: get the list of attempted quizzes of the user
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - in: query
+          name: event_id
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/quizzes/{quiz_id}":
+    get:
+      tags:
+        - User
+      summary: get one of user's quizzes with wrong answered questions, answer options
+        and count
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: quiz_id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/reset-password":
+    put:
+      tags:
+        - User
+      summary: update a user's password
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/reset-password"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/forgot-password:
+    post:
+      tags:
+        - Auth
+      summary: forgot password, generate a reset code for the given username and email
+        it to the user
+      parameters:
+        - name: referrer-app
+          in: header
+          description: |-
+            Dasa refferer -> "dasa"
+            Asso referrer -> "asso"
+          schema:
+            type: string
+            default: dasa
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/forgot-password"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/reset-password:
+    put:
+      tags:
+        - Auth
+      summary: reset a user's password with a code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/reset-password-by-code"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/quizzes-badges":
+    get:
+      tags:
+        - User
+      summary: get a user's quizzes and badges
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/badges":
+    get:
+      tags:
+        - User
+      summary: get a user's badges
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/notifications":
+    get:
+      tags:
+        - User
+      summary: get a user's notifications
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/users/{id}/notifications/send":
+    post:
+      tags:
+        - User
+      summary: "get a user notification "
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/notification"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/badges/{id}":
+    get:
+      tags:
+        - Badges
+      summary: Get badge by ID
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/media:
+    post:
+      tags:
+        - Media
+      summary: Post a media
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/media'
+
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/media/compositions:
+    get:
+      tags:
+        - Media
+      summary: Get all compositions
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/media/festivals:
+    get:
+      tags:
+        - Media
+      summary: Get all festivals
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    post:
+      tags:
+        - Media
+      summary: Post Festival
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        $ref: '#/components/requestBodies/festival'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/media/festivals/{id}":
+    get:
+      tags:
+        - Media
+      summary: Get festival by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/media/interviews:
+    get:
+      tags:
+        - Media
+      summary: Get all interviews
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/media/search:
+    get:
+      tags:
+        - Media
+      summary: Search media
+      parameters:
+        - in: query
+          name: params
+          schema:
+            default: { "title": "string", "description": "string", "type": "string", "tags.conductor": "string", "tags.*": "string", "festival_id": "integer" }
+            type: object
+            additionalProperties:
+              type: string
+          style: form
+          explode: true
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/media/{id}":
+    get:
+      tags:
+        - Media
+      summary: Get media by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    put:
+      tags:
+        - Media
+      summary: Update a media
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/media"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/media/{id}/breakpoints":
+    post:
+      tags:
+        - Media
+      summary: Post a media breakpoint
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/media_breakpoint"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/media/breakpoints/{id}":
+    put:
+      tags:
+        - Media
+      summary: Update a media breakpoint
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        $ref: "#/components/requestBodies/media_breakpoint"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/stories:
+    get:
+      tags:
+        - Story
+      summary: Get stories
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    post:
+      tags:
+        - Story
+      summary: Post story
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+              required:
+                - title
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/stories/{id}":
+    get:
+      tags:
+        - Story
+      summary: Get story by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    put:
+      tags:
+        - Story
+      summary: Update a story
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/stories/{id}/tabs":
+    get:
+      tags:
+        - Story
+      summary: Get tabs by story ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    post:
+      tags:
+        - Story
+      summary: Post event news stories
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                video_url:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/stories/tabs/{id}":
+    get:
+      tags:
+        - Story
+      summary: Get story tab by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    put:
+      tags:
+        - Story
+      summary: Update story tab
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/banners:
+    get:
+      tags:
+        - Banner
+      summary: Get Banners
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    post:
+      tags:
+        - Banner
+      summary: Post Banner
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                place:
+                  type: string
+                date:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+                sound:
+                  type: string
+                  format: binary
+                video:
+                  type: string
+                  format: binary
+                logo:
+                  type: string
+                  format: binary
+              required:
+                - title
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  "/api/banners/{id}":
+    get:
+      tags:
+        - Banner
+      summary: Get Banner By ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    put:
+      tags:
+        - Banner
+      summary: Update Banner
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                place:
+                  type: string
+                date:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+                sound:
+                  type: string
+                  format: binary
+                video:
+                  type: string
+                  format: binary
+                logo:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+    delete:
+      tags:
+        - Banner
+      summary: Remove Banner
+      security:
+        - JWT: []
+        - SessionCheck: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/abouts/orchestra:
+    get:
+      tags:
+        - About
+      summary: Show an orchestra about page
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/abouts/director:
+    get:
+      tags:
+        - About
+      summary: Show an Art Director about page
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/abouts/orchestra/gallery:
+    get:
+      tags:
+        - About
+      summary: Get abouts gallery for orchestra
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+
+    post:
+      tags:
+        - About
+      summary: Post About Gallery image for orchestra
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/about_image"
+      responses:
+        "200":
+          description: successful operationCreateAboutRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/abouts/director/gallery:
+    get:
+      tags:
+        - About
+      summary: Get abouts gallery for director
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+
+    post:
+      tags:
+        - About
+      summary: Post About Gallery image on director
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/about_image"
+      responses:
+        "200":
+          description: successful operationCreateAboutRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+
+  /api/abouts/orchestra/social:
+    post:
+      tags:
+        - About
+      summary: Post About social lilnk on orchestra
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/about_link'
+      responses:
+        "200":
+          description: successful operationCreateAboutRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+  /api/abouts/director/social:
+    post:
+      tags:
+        - About
+      summary: Post About social lilnk on director
+      security:
+        - JWT: []
+        - SessionCheck: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/about_link'
+      responses:
+        "200":
+          description: successful operationCreateAboutRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultSuccess"
+        "400":
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/defaultError"
+
+components:
+  requestBodies:
+    event:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/event"
+      required: true
+    user:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/user"
+      required: true
+    answer:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/answer"
+      required: true
+    event_guide:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/event_guide"
+      required: true
+    media_breakpoint:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/media_breakpoint"
+      required: true
+    festival:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/festival"
+      required: true
+    quiz:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/quiz"
+      required: true
+    question:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/question"
+      required: true
+    media:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/media"
+      required: true
+  securitySchemes:
+    SessionCheck:
+      type: apiKey
+      in: header
+      name: session
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Please provide the token wihout "Bearer" keyword
+  schemas:
+    defaultError:
+      allOf:
+        - properties:
+            code:
+              type: integer
+            status:
+              type: string
+            message:
+              type: string
+            params:
+              type: object
+    defaultSuccess:
+      allOf:
+        - properties:
+            code:
+              type: integer
+            status:
+              type: string
+            message:
+              type: string
+            params:
+              type: object
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        device:
+          type: string
+    user:
+      type: object
+      properties:
+        email:
+          type: string
+        phone:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        password:
+          type: string
+        birthday:
+          type: string
+          format: yyyy-mm-dd
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+          default: male
+        device:
+          type: string
+          enum:
+            - ios
+            - android
+          default: ios
+        school_id:
+          type: number
+        country_id:
+          type: integer
+        user_title_id:
+          type: integer
+        receive_live_concert_notifications:
+          type: boolean
+        receive_new_concert_notifications:
+          type: boolean
+        receive_emails:
+          type: boolean
+        authorise_share:
+          type: boolean
+    school:
+      type: object
+      properties:
+        district_id:
+          type: number
+        name:
+          type: string
+    user_event:
+      type: object
+      properties:
+        event_id:
+          type: number
+    user_attend:
+      type: object
+      properties:
+        qr_hash:
+          type: string
+    feedback_answer:
+      type: object
+      properties:
+        question_id:
+          type: integer
+        answers:
+          type: array
+          items: {}
+    about:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          type: string
+        image:
+          type: string
+          format: binary
+        description:
+          type: string
+    about_link:
+      type: object
+      properties:
+        url:
+          type: string
+        type:
+          type: string
+    about_image:
+      type: object
+      properties:
+        url:
+          type: string
+          format: binary
+    event:
+      type: object
+      properties:
+        name:
+          type: string
+        festival:
+          type: string
+        description:
+          type: string
+        start_date:
+          type: string
+        duration:
+          type: string
+        location:
+          type: string
+        singer:
+          type: string
+        conductor:
+          type: string
+        data:
+          type: object
+        program:
+          type: object
+        status:
+          type: string
+        thumbnail:
+          type: string
+          format: binary
+        image:
+          type: string
+          format: binary
+    event_guide:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        event_id:
+          type: number
+    quiz:
+      type: object
+      properties:
+        event_id:
+          type: number
+          default: null
+        name:
+          type: string
+    notification:
+      type: object
+      properties:
+        event_id:
+          type: number
+          default: null
+        action:
+          type: string
+    question:
+      type: object
+      properties:
+        question:
+          type: string
+        type:
+          type: string
+          default: null
+        content_type:
+          type: string
+        content_url:
+          type: string
+          default: null
+    answer:
+      type: object
+      properties:
+        answer:
+          type: string
+        status:
+          type: boolean
+    manyAnswers:
+      type: object
+      properties:
+        answers:
+          type: array
+          items: {}
+    reset-password:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+        newPassword:
+          type: string
+    reset-password-by-code:
+      type: object
+      properties:
+        code:
+          type: integer
+        password:
+          type: string
+    forgot-password:
+      type: object
+      properties:
+        username:
+          type: string
+    media:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+        video:
+          type: string
+          format: binary
+        thumbnail-start:
+          type: integer
+          description: The start point of the video thumbnail. Will be set to the first second by default, if not provided
+        festival_id:
+          type: integer
+          description: Provide the festival id, if the media type is festival
+        thumbnail-duration:
+          type: integer
+          description: The thumbnail video duration. Will be set to 5 seconds, if not provided
+        banner:
+          type: string
+          format: binary
+          description: The banner image of the video. Will be set to the halfpoint frame, if not provided
+        tags:
+          type: object
+          default: {"soloist":["string", "string"], "conductor":["string"]}
+          additionalProperties:
+            type: string
+        type:
+          type: string
+          enum:
+            - COMPOSITION
+            - FESTIVAL
+            - INTERVIEW
+        app:
+          type: string
+          enum:
+            - dasa
+            - asso
+    media_breakpoint:
+      type: object
+      properties:
+        title:
+          type: string
+        start_time:
+          type: number
+        end_time:
+          type: number
+    festival:
+      type: object
+      properties:
+        title:
+          type: string
+    story:
+      type: object
+      properties:
+        title:
+          type: string
+    story_tab:
+      type: object
+      properties:
+        description:
+          type: string
+        video_url:
+          type: string

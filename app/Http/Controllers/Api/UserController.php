@@ -13,46 +13,38 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
-    private $registerUser;
-    private $loginUser;
-    private $get;
-    private $logoutUser;
-    private $updateUserData;
+    private $service;
 
     function __construct(UserService $userService)
     {
-        $this->registerUser = $userService;
-        $this->loginUser = $userService;
-        $this->get = $userService;
-        $this->logoutUser = $userService;
-        $this->updateUserData = $userService;
+        $this->service = $userService;
     }
 
     public function register(RegisterRequest $request){
-        $this->registerUser->createRegister($request);
+        $this->service->createRegister($request);
         return response()->json($request->all(), 200);
     }
 
     public function update(UpdateRequest $request)
     {
-        $this->updateUserData->updateData($request);
+        $this->service->updateData($request);
         return response()->json($request->all(),200);
     }
 
     public function login(LoginRequest $request)
     {
-       return $this->loginUser->authenticate($request);
+       return $this->service->authenticate($request);
     }
 
     public function user()
     {
-        return $this->get->get();
+        return $this->service->get();
     }
 
     public function logout()
     {
 
-        return $this->logoutUser->logoutUser();
+        return $this->service->logoutUser();
     }
 
 

@@ -16,17 +16,20 @@ use App\User;
 class UserRepository
 {
 
-    public function create(array $request){
+    public function create(array $request)
+    {
         return User::create($request);
     }
 
     /**
-     * @param $request
+     * @param array $request
+     * @param User $user
      * @return bool
      */
 
-    public function update(array $request){
-        return User::where('id', $request['id'])->update([
+    public function update($request, User $user)
+    {
+        return $user->update([
             'name' => $request['name'],
             'email' => $request['email']
         ]);

@@ -47,12 +47,12 @@
           }
       },
 
-      "/api/update": {
-          "post": {
+      "/api/users/{user}": {
+          "put": {
               "tags": [
                   "User Auth"
               ],
-              "summary": "Update user",
+              "summary": "update User",
               "consumes": [
                   "application/json"
               ],
@@ -65,7 +65,7 @@
                       "in": "header",
                       "required": true,
                       "type": "string",
-                      "default": ""
+                      "default": "Bearer"
                   },
                   {
                       "in": "body",
@@ -133,7 +133,7 @@
       },
 
       "/api/user": {
-          "post": {
+          "get": {
               "tags": [
                   "User Auth"
               ],
@@ -150,7 +150,7 @@
                       "in": "header",
                       "required": true,
                       "type": "string",
-                      "default": ""
+                      "default": "Bearer"
                   }
               ],
               "responses": {
@@ -188,7 +188,7 @@
                       "in": "header",
                       "type": "string",
                       "required": true,
-                      "default": ""
+                      "default": "Bearer"
                   }
               ],
               "responses": {

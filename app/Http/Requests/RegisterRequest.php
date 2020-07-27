@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             "name" => "required",
-            "email" => "required|email",
+            "email" => "required|email|unique:users",
             "password" => "required|min:" . self::MIN_PASS_LENGTH . "max:" . self::MAX_PASS_LENGTH,
             "c_password" => "required|same:password"
         ];

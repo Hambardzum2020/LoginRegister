@@ -25,7 +25,7 @@ Route::post('login', 'Api\UserController@login');
 
 Route::middleware(['jwt.auth'])->group(function() {
     Route::post('logout', 'Api\UserController@logout');
-    Route::post('user', 'Api\UserController@user');
-    Route::post('update', "Api\UserController@update");
+    Route::get('user', 'Api\UserController@user');
+    Route::put('users/{user}', "Api\UserController@update");
 });
 

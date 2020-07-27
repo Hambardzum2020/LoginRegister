@@ -41,8 +41,7 @@ class UserService
     {
         $user = JWTAuth::user();
         $data = $request->all();
-        $data["id"] = $user['id'];
-        return $this->update->update($data);
+        return $this->update->update($data, $user);
     }
 
     public function authenticate(LoginRequest $request)

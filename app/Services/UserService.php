@@ -59,7 +59,9 @@ class UserService
         }
 
         // all good so return the token
-        return response()->json(compact('token'));
+        $data['token'] = compact('token');
+        $data['userInfo'] = $request->all();
+        return response()->json($data);
     }
 
     public function get()
